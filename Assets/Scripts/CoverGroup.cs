@@ -63,7 +63,8 @@ public class CoverGroup : MonoBehaviour
             offsetX += 
         }*/
 
-        for(float x = -meshRenderer.bounds.extents.x + PADDING; x <= meshRenderer.bounds.extents.x - PADDING; x += spacing)
+        //float startPos = -meshRenderer.bounds.extents.x + PADDING + spacing * coverAmountX;
+        for(float x = -meshRenderer.bounds.extents.x; x <= meshRenderer.bounds.extents.x - PADDING; x += spacing)
         {
             cover[coverIndex++] = new Cover(transform.position + new Vector3(x, 0f, meshRenderer.bounds.extents.z + ENTITY_WIDTH + coverDistance));
         }

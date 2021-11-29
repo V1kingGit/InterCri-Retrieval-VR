@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7725629015950527480}
   - component: {fileID: 7725629015950527481}
   - component: {fileID: 7725629015950527482}
-  - component: {fileID: 6657749518581631266}
   m_Layer: 10
   m_Name: Cover
   m_TagString: Untagged
@@ -98,28 +97,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6657749518581631266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7725629015950527483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a00cc2fab2f01674483f65f9bc50dbce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 7725629015950527481}
-  autoGenerateCover: 1
-  coverSpacing: 1
-  coverDistance: 0.25
-  cover:
-  - position: {x: -1, y: -2, z: 1.75}
-    hideOffset: {x: 0, y: 0, z: 0}
-  - position: {x: 0, y: 0, z: 0}
-    hideOffset: {x: 0, y: 0, z: 0}
-  - position: {x: 0, y: 0, z: 0}
-    hideOffset: {x: 0, y: 0, z: 0}
-  - position: {x: 0, y: 0, z: 0}
-    hideOffset: {x: 0, y: 0, z: 0}
