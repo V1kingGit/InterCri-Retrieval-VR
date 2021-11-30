@@ -38,7 +38,6 @@ public class NpcCombat : MonoBehaviour
 
     private Vector3 targetLastSeen = Npc.invalidVector;
 
-
     private void OnTriggerEnter(Collider other)
     {
         coverGroups.Add(other.GetComponent<CoverGroup>());

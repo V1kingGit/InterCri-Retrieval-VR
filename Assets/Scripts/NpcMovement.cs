@@ -16,6 +16,8 @@ public class NpcMovement : MonoBehaviour
 
     private float lastPathfind = float.NegativeInfinity;
 
+    private Vector3 startPos;
+
     private Vector3 _destination;
     public Vector3 destination
     {
@@ -30,8 +32,11 @@ public class NpcMovement : MonoBehaviour
         }
     }
 
+    private int checkingLocationStage;
+
     private void Awake()
     {
+        startPos = transform.position;
         UpdatePathfind();
     }
 
@@ -51,6 +56,12 @@ public class NpcMovement : MonoBehaviour
     {
         reachedDestination = true;
     }*/
+
+    public void CheckSuspiciousLocation(Vector3 location)
+    {
+        checkingLocationStage = 1;
+        destination = location;
+    }
 
     private void UpdatePathfind()
     {

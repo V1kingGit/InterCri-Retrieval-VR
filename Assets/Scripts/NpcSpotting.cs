@@ -63,6 +63,8 @@ public class NpcSpotting : MonoBehaviour
     }
     private float reachedSpotPos = -1f;
 
+    private float suspicion; // 0 to 100
+
     private void Awake()
     {
         float baseReactionTime = Random.Range(visualReactionTimeMin, visualReactionTimeMax);
@@ -140,6 +142,11 @@ public class NpcSpotting : MonoBehaviour
                 reachedSpotPos = Time.time;
             else if(Time.time > reachedSpotPos + spotPosDuration) // Look a bit longer if no other spotted targets - new spotted targets will overwrite this
             {
+                suspicion += 70f;
+                if(suspicion >= 70f && npc.combat.dangerState == NpcCombat.DangerStates.Safe)
+                {
+                    npc.combat.dangerState = NpcCombat.DangerStates.Cautious;
+                }
                 spotPos = Npc.invalidVector;
             }
         }

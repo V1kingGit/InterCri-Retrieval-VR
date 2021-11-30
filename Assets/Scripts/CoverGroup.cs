@@ -55,24 +55,32 @@ public class CoverGroup : MonoBehaviour
 
         // Generate cover along X axis
         int coverIndex = 0;
-        float offsetX = -meshRenderer.bounds.extents.x;
 
-        /*for(int i = 0; i < coverAmountX; ++i)
-        {
-            cover[coverIndex++] = new Cover(transform.position + new Vector3(offsetX, 0f, meshRenderer.bounds.extents.z + coverDistance));
-            offsetX += 
-        }*/
-
-        //float startPos = -meshRenderer.bounds.extents.x + PADDING + spacing * coverAmountX;
-        for(float x = -meshRenderer.bounds.extents.x; x <= meshRenderer.bounds.extents.x - PADDING; x += spacing)
+        float startPos = -meshRenderer.bounds.extents.x + PADDING + GetCoverStartPos(meshRenderer.bounds.extents.x, spacing, coverAmountX) / 2f;
+        for(float x = startPos; x <= meshRenderer.bounds.extents.x - PADDING; x += spacing)
         {
             cover[coverIndex++] = new Cover(transform.position + new Vector3(x, 0f, meshRenderer.bounds.extents.z + ENTITY_WIDTH + coverDistance));
+            cover[coverIndex++] = new Cover(transform.position + new Vector3(x, 0f, -meshRenderer.bounds.extents.z - ENTITY_WIDTH - coverDistance));
         }
+
+        startPos = -meshRenderer.bounds.extents.z + PADDING + GetCoverStartPos(meshRenderer.bounds.extents.z, spacing, coverAmountZ) / 2f;
+        for(float z = startPos; z <= meshRenderer.bounds.extents.z - PADDING; z += spacing)
+        {
+            cover[coverIndex++] = new Cover(transform.position + new Vector3(meshRenderer.bounds.extents.x + ENTITY_WIDTH + coverDistance, 0f, z));
+            cover[coverIndex++] = new Cover(transform.position + new Vector3(-meshRenderer.bounds.extents.x - ENTITY_WIDTH - coverDistance, 0f, z));
+        }
+    }
+
+    private float GetCoverStartPos(float extents, float spacing, int coverAmount)
+    {
+        float first = extents * 2f;
+        float second = spacing * coverAmount;
+        return first - second + 2f;
     }
 
     private int GetCoverAmount(float size, float spacing)
     {
-        if(size >= ENTITY_WIDTH)
+        if(size >= ENTITY_WIDTH + PADDING)
             return (int)(1 + (size - PADDING * 2f) / spacing);
         return 0;
     }
