@@ -4,7 +4,7 @@ using V1king;
 
 public class NpcMovement : MonoBehaviour
 {
-    //private const float DESTINATION_PROXIMITY = 0.1f;
+    private const float DESTINATION_PROXIMITY = 0.1f;
 
     [Header("References")]
     [SerializeField] private NavMeshAgent navMeshAgent = null;
@@ -12,7 +12,7 @@ public class NpcMovement : MonoBehaviour
 
     [Header("Values")]
     [SerializeField] private float rotationSpeed = default;
-    //private bool reachedDestination;
+    public bool reachedDestination { private set; get; }
 
     private float lastPathfind = float.NegativeInfinity;
 
@@ -28,15 +28,15 @@ public class NpcMovement : MonoBehaviour
         set
         {
             lastPathfind = float.NegativeInfinity;
+            reachedDestination = false;
             _destination = value;
         }
     }
 
-    private int checkingLocationStage;
-
     private void Awake()
     {
         startPos = transform.position;
+        destination = transform.position;
         UpdatePathfind();
     }
 
@@ -48,39 +48,39 @@ public class NpcMovement : MonoBehaviour
         UpdateMovement();
         UpdateRotation();
 
-        //if(navMeshAgent.remainingDistance <= DESTINATION_PROXIMITY)
-            //OnDestinationReached();
+        if(navMeshAgent.remainingDistance <= DESTINATION_PROXIMITY)
+            OnDestinationReached();
     }
 
-    /*private void OnDestinationReached()
+    public void ReturnToStationedPos()
+    {
+        destination = startPos;
+    }
+
+    private void OnDestinationReached()
     {
         reachedDestination = true;
-    }*/
-
-    public void CheckSuspiciousLocation(Vector3 location)
-    {
-        checkingLocationStage = 1;
-        destination = location;
     }
 
     private void UpdatePathfind()
     {
         // If target, if static point dont do this
         if(Time.time > lastPathfind + navMeshAgent.remainingDistance / 10f)
-        {
             navMeshAgent.SetDestination(destination);
-        }
     }
 
     private void UpdateMovement()
     {
         Vector3 desiredMovement = navMeshAgent.desiredVelocity;
         desiredMovement.y = 0f;
-        charController.Move(navMeshAgent.desiredVelocity * Time.deltaTime);
+        charController.Move(desiredMovement * Time.deltaTime);
     }
 
     private void UpdateRotation()
     {
+        if(navMeshAgent.remainingDistance <= DESTINATION_PROXIMITY * 2f)
+            return;
+
         Vector3 direction = navMeshAgent.steeringTarget - transform.position;
         float angle = VectorConversions.GetAngleFromVector(direction);
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, Mathf.SmoothStep(transform.eulerAngles.y, angle, Time.deltaTime * rotationSpeed), transform.eulerAngles.z);

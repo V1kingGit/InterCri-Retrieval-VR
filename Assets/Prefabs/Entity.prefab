@@ -452,7 +452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3fe6e5f21f0b3e4a80afee079d9a4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 0
+  drawGizmos: 1
   npc: {fileID: 3876798088833032681}
   targets:
   - {fileID: 0}
@@ -516,7 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 858fbf0393899a44b8f7b0fa7d05ef0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: {fileID: 0}
+  movement: {fileID: 1298372736}
   combat: {fileID: 1893910059}
 --- !u!114 &1298372736
 MonoBehaviour:
@@ -525,7 +525,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2937157108132971303}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67be6bb00fad55a48ac9cdb205285d04, type: 3}
   m_Name: 

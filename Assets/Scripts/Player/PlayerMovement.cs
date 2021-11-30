@@ -14,11 +14,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groundDistance = 0.4f;
     [SerializeField] private LayerMask groundMask;
 
+    [System.NonSerialized] public float movementX;
+    [System.NonSerialized] public float movementZ;
 
     private Vector3 velocity;
     private bool isGrounded;
-
-    // Update is called once per frame
 
     private void Awake()
     {
@@ -27,8 +27,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
         bool jumpPressed = Input.GetButtonDown("Jump");
 
         // Fall
@@ -39,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Movement
-        Vector3 movement = transform.right * x + transform.forward * z;
+        Vector3 movement = transform.right * PlayerInputs.movement.x + transform.forward * PlayerInputs.movement.y; // Y is really Z, but with Vector2
         charController.Move(movement * speed * Time.deltaTime);
 
         // Jump

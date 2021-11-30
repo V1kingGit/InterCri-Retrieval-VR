@@ -64,6 +64,7 @@ public class NpcSpotting : MonoBehaviour
     private float reachedSpotPos = -1f;
 
     private float suspicion; // 0 to 100
+    private Vector3 suspiciousLocation;
 
     private void Awake()
     {
@@ -128,28 +129,33 @@ public class NpcSpotting : MonoBehaviour
         }
 
         // Cant see targets? Look at spotPos
-        if(desiredRotation == Quaternion.identity && spotPos != Npc.invalidVector)
+        if(spotPos != Npc.invalidVector)
         {
-            Vector3 direction = spotPos - transform.position;
-            desiredRotation = DirectionToRotation(direction);
+            if(desiredRotation == Quaternion.identity)
+            {
+                Vector3 direction = spotPos - transform.position;
+                desiredRotation = DirectionToRotation(direction);
+            }
+
+            if(VectorsWithinDeadzone(transform.eulerAngles, desiredRotation.eulerAngles, 0.01f))
+            {
+                if(reachedSpotPos == -1f)
+                    reachedSpotPos = Time.time;
+                else if(Time.time > reachedSpotPos + spotPosDuration) // Look a bit longer if no other spotted targets - new spotted targets will overwrite this
+                {
+                    suspicion += 70f;
+                    if(suspicion >= 70f && npc.combat.dangerState == NpcCombat.DangerStates.Safe)
+                    {
+                        suspiciousLocation = spotPos;
+                        npc.combat.dangerState = NpcCombat.DangerStates.Cautious;
+                        npc.movement.destination = suspiciousLocation;
+                    }
+                    spotPos = Npc.invalidVector;
+                }
+            }
         }
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, Time.deltaTime * headSpeeds[(int)npc.combat.dangerState] * speedMultiplier);
-
-        if(VectorsWithinDeadzone(transform.eulerAngles, desiredRotation.eulerAngles, 0.01f))
-        {
-            if(reachedSpotPos == -1f)
-                reachedSpotPos = Time.time;
-            else if(Time.time > reachedSpotPos + spotPosDuration) // Look a bit longer if no other spotted targets - new spotted targets will overwrite this
-            {
-                suspicion += 70f;
-                if(suspicion >= 70f && npc.combat.dangerState == NpcCombat.DangerStates.Safe)
-                {
-                    npc.combat.dangerState = NpcCombat.DangerStates.Cautious;
-                }
-                spotPos = Npc.invalidVector;
-            }
-        }
     }
 
     private bool VectorsWithinDeadzone(Vector3 v1, Vector3 v2, float deadzone)
