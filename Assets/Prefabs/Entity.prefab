@@ -403,7 +403,7 @@ BoxCollider:
   m_GameObject: {fileID: 258897128153433325}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -456,8 +456,9 @@ MonoBehaviour:
   npc: {fileID: 3876798088833032681}
   targets:
   - {fileID: 0}
+  body: {fileID: 1685068396}
   headSpeeds:
-  - 30
+  - 40
   - 50
   - 60
   spotPosDuration: 4
@@ -466,7 +467,7 @@ MonoBehaviour:
   maculaFOV: 16
   obstructions:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1088
 --- !u!1 &2937157108132971303
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 1298372736}
+  spotting: {fileID: 3597754614394991679}
   combat: {fileID: 1893910059}
 --- !u!114 &1298372736
 MonoBehaviour:
@@ -530,9 +532,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67be6bb00fad55a48ac9cdb205285d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npc: {fileID: 3876798088833032681}
   navMeshAgent: {fileID: 32651498}
   charController: {fileID: 1298372737}
-  rotationSpeed: 5
+  head: {fileID: 6663724762614316462}
+  rotationSpeed: 50
 --- !u!143 &1298372737
 CharacterController:
   m_ObjectHideFlags: 0

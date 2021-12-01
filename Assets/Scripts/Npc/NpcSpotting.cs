@@ -26,6 +26,7 @@ public class NpcSpotting : MonoBehaviour
     [Header("References")]
     [SerializeField] private Npc npc = null;
     [SerializeField] private Transform[] targets = null;
+    [SerializeField] private Transform body = null;
 
     [Header("Values")]
     [SerializeField] private float[] headSpeeds = new float[System.Enum.GetValues(typeof(NpcCombat.DangerStates)).Length];
@@ -49,7 +50,7 @@ public class NpcSpotting : MonoBehaviour
     private bool[] seesTargets;
 
     private Vector3 _spotPos = Npc.invalidVector;
-    private Vector3 spotPos
+    public Vector3 spotPos
     {
         get
         {
@@ -64,7 +65,6 @@ public class NpcSpotting : MonoBehaviour
     private float reachedSpotPos = -1f;
 
     private float suspicion; // 0 to 100
-    private Vector3 suspiciousLocation;
 
     private void Awake()
     {
@@ -106,13 +106,14 @@ public class NpcSpotting : MonoBehaviour
 
     private void Update()
     {
+        suspicion -= Time.deltaTime;
         UpdateSpotting();
         UpdateHeadRotation();
     }
 
     private void UpdateHeadRotation()
     {
-        Quaternion desiredRotation = Quaternion.identity;
+        Quaternion desiredRotation = body.rotation;
         float speedMultiplier = 1f;
 
         // Look at targets we can see
@@ -131,7 +132,7 @@ public class NpcSpotting : MonoBehaviour
         // Cant see targets? Look at spotPos
         if(spotPos != Npc.invalidVector)
         {
-            if(desiredRotation == Quaternion.identity)
+            if(desiredRotation == body.rotation)
             {
                 Vector3 direction = spotPos - transform.position;
                 desiredRotation = DirectionToRotation(direction);
@@ -143,13 +144,8 @@ public class NpcSpotting : MonoBehaviour
                     reachedSpotPos = Time.time;
                 else if(Time.time > reachedSpotPos + spotPosDuration) // Look a bit longer if no other spotted targets - new spotted targets will overwrite this
                 {
-                    suspicion += 70f;
-                    if(suspicion >= 70f && npc.combat.dangerState == NpcCombat.DangerStates.Safe)
-                    {
-                        suspiciousLocation = spotPos;
-                        npc.combat.dangerState = NpcCombat.DangerStates.Cautious;
-                        npc.movement.destination = suspiciousLocation;
-                    }
+                    if(suspicion >= 100f && npc.combat.dangerState == NpcCombat.DangerStates.Safe)
+                        npc.movement.InvestigateLocation(spotPos);
                     spotPos = Npc.invalidVector;
                 }
             }
@@ -191,7 +187,7 @@ public class NpcSpotting : MonoBehaviour
         }
         else
         {
-            if(spotPos == Npc.invalidVector || reachedSpotPos != -1f)
+            if((spotPos == Npc.invalidVector || reachedSpotPos != -1f) && HasLineOfSight(targets[currentTarget].position))
                 BeginReactingTo(NoticeTarget, currentTarget);
         }
     }
@@ -269,6 +265,8 @@ public class NpcSpotting : MonoBehaviour
 
     private void SpotTarget(int targetIndex)
     {
+        Debug.Log("SpotTarget");
+
         // Spot enemy position
         npc.combat.UpdateTarget(targets[0].position);
 
@@ -278,11 +276,14 @@ public class NpcSpotting : MonoBehaviour
     private void NoticeTarget(int targetIndex)
     {
         // Begin looking at enemy
+        Debug.Log("NoticeTarget");
+        suspicion += 70f;
         spotPos = targets[targetIndex].position;
     }
 
     private void LoseTarget(int targetIndex)
     {
+        Debug.Log("LoseTarget");
         seesTargets[targetIndex] = false;
 
         // Keep a lookout for it

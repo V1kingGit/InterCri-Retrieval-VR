@@ -51,6 +51,7 @@ public class NpcCombat : MonoBehaviour
     public void UpdateTarget(Vector3 spottedPos)
     {
         targetLastSeen = spottedPos;
+        dangerState = DangerStates.Combat;
         if(cover != null) // If in cover, reevaluate if it still protects
             MoveToCover();
     }

@@ -7,7 +7,6 @@ public class PlayerInputs : MonoBehaviour
     public static Vector2 movement;
 
     private InputDevice[] vrControllers = new InputDevice[2]; // Left is 0, Right is 1
-    private InputDevice headset;
 
     private void Awake()
     {
@@ -17,19 +16,17 @@ public class PlayerInputs : MonoBehaviour
     private void Update()
     {
         UpdateComputerInputs();
-        UpdateVRInputs();
+        //UpdateVRInputs();
     }
 
     private void InitVRInputs()
     {
         List<InputDevice> inputDevices = new List<InputDevice>();
-        InputDevices.GetDevices(inputDevices);
+        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Controller, inputDevices);
 
         for(int i = 0; i < inputDevices.Count; ++i)
         {
-            if(inputDevices[i].characteristics.HasFlag(InputDeviceCharacteristics.TrackingReference))
-                headset = inputDevices[i];
-            else if(inputDevices[i].characteristics.HasFlag(InputDeviceCharacteristics.Left))
+            if(inputDevices[i].characteristics.HasFlag(InputDeviceCharacteristics.Left))
                 vrControllers[0] = inputDevices[i];
             else if(inputDevices[i].characteristics.HasFlag(InputDeviceCharacteristics.Right))
                 vrControllers[1] = inputDevices[i];
