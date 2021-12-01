@@ -21,11 +21,13 @@ public class CoverGroup : MonoBehaviour
     {
         public Vector3 position;
         public Vector3 hideOffset;
+        public Vector3 direction;
         [System.NonSerialized] public bool isOccupied;
 
-        public Cover(Vector3 position)
+        public Cover(Vector3 position, Vector3 direction)
         {
             this.position = position;
+            this.direction = direction;
         }
 
         public Vector3 GetPosition()
@@ -59,15 +61,15 @@ public class CoverGroup : MonoBehaviour
         float startPos = -meshRenderer.bounds.extents.x + PADDING + GetCoverStartPos(meshRenderer.bounds.extents.x, spacing, coverAmountX) / 2f;
         for(float x = startPos; x <= meshRenderer.bounds.extents.x - PADDING; x += spacing)
         {
-            cover[coverIndex++] = new Cover(transform.position + new Vector3(x, 0f, meshRenderer.bounds.extents.z + ENTITY_WIDTH + coverDistance));
-            cover[coverIndex++] = new Cover(transform.position + new Vector3(x, 0f, -meshRenderer.bounds.extents.z - ENTITY_WIDTH - coverDistance));
+            cover[coverIndex++] = new Cover(transform.position + new Vector3(x, 0f, meshRenderer.bounds.extents.z + ENTITY_WIDTH + coverDistance), -Vector3.forward);
+            cover[coverIndex++] = new Cover(transform.position + new Vector3(x, 0f, -meshRenderer.bounds.extents.z - ENTITY_WIDTH - coverDistance), Vector3.forward);
         }
 
         startPos = -meshRenderer.bounds.extents.z + PADDING + GetCoverStartPos(meshRenderer.bounds.extents.z, spacing, coverAmountZ) / 2f;
         for(float z = startPos; z <= meshRenderer.bounds.extents.z - PADDING; z += spacing)
         {
-            cover[coverIndex++] = new Cover(transform.position + new Vector3(meshRenderer.bounds.extents.x + ENTITY_WIDTH + coverDistance, 0f, z));
-            cover[coverIndex++] = new Cover(transform.position + new Vector3(-meshRenderer.bounds.extents.x - ENTITY_WIDTH - coverDistance, 0f, z));
+            cover[coverIndex++] = new Cover(transform.position + new Vector3(meshRenderer.bounds.extents.x + ENTITY_WIDTH + coverDistance, 0f, z), -Vector3.right);
+            cover[coverIndex++] = new Cover(transform.position + new Vector3(-meshRenderer.bounds.extents.x - ENTITY_WIDTH - coverDistance, 0f, z), Vector3.right);
         }
     }
 
@@ -93,9 +95,15 @@ public class CoverGroup : MonoBehaviour
         Gizmos.color = Color.white;
         for(int i = 0; i < cover.Length; ++i)
         {
+            // Position
             Gizmos.DrawSphere(cover[i].position, 0.25f);
+
+            // HideOffset
             Gizmos.DrawLine(cover[i].position, cover[i].position + cover[i].hideOffset);
             Gizmos.DrawWireSphere(cover[i].position, 0.25f);
+
+            // Direction
+            Gizmos.DrawLine(cover[i].GetPosition(), cover[i].GetPosition() + cover[i].direction);
         }
     }
 #endif

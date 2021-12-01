@@ -35,7 +35,6 @@ public class NpcMovement : MonoBehaviour
             reachedDestination = false;
             _destination = value;
             navMeshAgent.SetDestination(destination);
-            Debug.LogWarning("New Destination");
         }
     }
 

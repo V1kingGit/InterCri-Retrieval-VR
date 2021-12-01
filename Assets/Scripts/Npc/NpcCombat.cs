@@ -38,6 +38,24 @@ public class NpcCombat : MonoBehaviour
 
     private Vector3 targetLastSeen = Npc.invalidVector;
 
+    /*private void Update()
+    {
+        // Debug
+        if(targetLastSeen == Npc.invalidVector)
+            return;
+
+        float maxAngle = Mathf.Cos(90f / 2f * Mathf.Deg2Rad); // Cover needs to face target
+        for(int i = 0; i < coverGroups.Count; ++i)
+        {
+            for(int j = 0; j < coverGroups[i].cover.Length; ++j)
+            {
+                Vector3 targetDir = (targetLastSeen - coverGroups[i].cover[j].GetPosition()).normalized;
+                float dotProduct = Vector3.Dot(coverGroups[i].cover[j].direction, targetDir);
+                Debug.Log(maxAngle + " | " + dotProduct);
+            }
+        }
+    }*/
+
     private void OnTriggerEnter(Collider other)
     {
         coverGroups.Add(other.GetComponent<CoverGroup>());
@@ -89,8 +107,8 @@ public class NpcCombat : MonoBehaviour
         }
         else // Specifically use cover that protects from target
         {
-            Vector3 direction = (targetLastSeen - transform.position).normalized;
-            float dotProduct = Vector3.Dot(transform.forward, direction);
+            float maxAngle = Mathf.Cos(90f / 2f * Mathf.Deg2Rad); // Cover needs to face target
+            float lowestDotProduct = 1f;
             float closestDist = float.PositiveInfinity;
             for(int i = 0; i < coverGroups.Count; ++i)
             {
@@ -99,21 +117,36 @@ public class NpcCombat : MonoBehaviour
                     if(coverGroups[i].cover[j].isOccupied)
                         continue;
 
-                    float maxAngle = Mathf.Cos(90f / 2f * Mathf.Deg2Rad); // Cover needs to face target
-                    if(dotProduct >= maxAngle
-                    && Vector3.Distance(transform.position, coverGroups[i].cover[j].GetPosition()) < closestDist) // Closest cover
+                    Vector3 targetDir = (targetLastSeen - coverGroups[i].cover[j].GetPosition()).normalized;
+                    float dotProduct = Vector3.Dot(coverGroups[i].cover[j].direction, targetDir);
+                    if(dotProduct >= maxAngle || dotProduct < 0f || dotProduct > lowestDotProduct) // Best facing direction towards target
+                        continue;
+
+                    float distance = Vector3.Distance(transform.position, coverGroups[i].cover[j].GetPosition());
+                    if(distance < closestDist) // Closest cover
+                    {
                         newCover = coverGroups[i].cover[j];
+                        lowestDotProduct = dotProduct;
+                        closestDist = distance;
+                    }
                 }
             }
         }
 
         if(newCover != null)
         {
-            cover.isOccupied = false;
+            if(cover != null)
+                cover.isOccupied = false;
 
             newCover.isOccupied = true;
             npc.movement.destination = newCover.GetPosition();
             cover = newCover;
+
+            Vector3 targetDir = (targetLastSeen - cover.GetPosition()).normalized;
+            float dotProduct = Vector3.Dot(cover.direction, targetDir);
+            float distance = Vector3.Distance(transform.position, cover.GetPosition());
+            float maxAngle = Mathf.Cos(90f / 2f * Mathf.Deg2Rad); // Cover needs to face target
+            Debug.Log(maxAngle + " | " + dotProduct + " | " + distance);
         }
     }
 }

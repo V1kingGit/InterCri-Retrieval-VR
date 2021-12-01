@@ -179,6 +179,8 @@ public class NpcSpotting : MonoBehaviour
         {
             if(!HasLineOfSight(targets[currentTarget].position))
                 BeginReactingTo(LoseTarget, currentTarget);
+            else
+                npc.combat.UpdateTarget(targets[0].position);
         }
         else if(spotStage == SpotStage.Macula)
         {
