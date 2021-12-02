@@ -1,16 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
+using V1king;
 
 public class NpcCombat : MonoBehaviour
 {
-    /*public class Squad
-    {
-        private List<Npc> npcs = new List<Npc>();
-    }
-    private Squad squad;*/
+    private const float BASE_MORALE = 50f;
 
     [Header("References")]
     [SerializeField] private Npc npc = null;
+    [SerializeField] private SphereCollider coverRange = null;
+    [Header("Values")]
+    [SerializeField] private LayerMask tallObstructions = default;
+    [SerializeField] private LayerMask allObstructions = default;
+    [SerializeField] private int coverLayer = 0;
+    [SerializeField] private int coverDetectionLayer = 0;
 
     public enum DangerStates
     {
@@ -33,45 +36,57 @@ public class NpcCombat : MonoBehaviour
         }
     }
 
+    private List<Npc> nearbyAllies = new List<Npc>();
+
     private List<CoverGroup> coverGroups = new List<CoverGroup>();
     private CoverGroup.Cover cover;
 
     private Vector3 targetLastSeen = Npc.invalidVector;
 
-    /*private void Update()
-    {
-        // Debug
-        if(targetLastSeen == Npc.invalidVector)
-            return;
+    private float morale;
 
-        float maxAngle = Mathf.Cos(90f / 2f * Mathf.Deg2Rad); // Cover needs to face target
-        for(int i = 0; i < coverGroups.Count; ++i)
-        {
-            for(int j = 0; j < coverGroups[i].cover.Length; ++j)
-            {
-                Vector3 targetDir = (targetLastSeen - coverGroups[i].cover[j].GetPosition()).normalized;
-                float dotProduct = Vector3.Dot(coverGroups[i].cover[j].direction, targetDir);
-                Debug.Log(maxAngle + " | " + dotProduct);
-            }
-        }
-    }*/
+    private float preferredFightingRange => MathConversions.ConvertNumberRange(morale, 0f, 100f, npc.spotting.visionRange, 0f);
+
+    private void Awake()
+    {
+        morale = Random.Range(BASE_MORALE - 50f, BASE_MORALE + 50f);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        coverGroups.Add(other.GetComponent<CoverGroup>());
+        if(other.gameObject.layer == coverLayer)
+            coverGroups.Add(other.GetComponent<CoverGroup>());
+        else if(other.gameObject.layer == coverDetectionLayer)
+            nearbyAllies.Add(other.GetComponent<NpcCombat>().npc);
+
+        morale += 25f;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        coverGroups.Remove(other.GetComponent<CoverGroup>());
+        if(other.gameObject.layer == coverLayer)
+            coverGroups.Remove(other.GetComponent<CoverGroup>());
+        else if(other.gameObject.layer == coverDetectionLayer)
+            nearbyAllies.Remove(other.GetComponent<NpcCombat>().npc);
+
+        morale -= 25f;
     }
 
     public void UpdateTarget(Vector3 spottedPos)
     {
+        // ToDo: Change below to timer, lastUpdatedCover, so he can constantly move cover to/away from target
+        if(Vector3.Distance(targetLastSeen, spottedPos) < 2f) // Only update if target changed position
+            return;
+
         targetLastSeen = spottedPos;
+        
         dangerState = DangerStates.Combat;
         if(cover != null) // If in cover, reevaluate if it still protects
             MoveToCover();
+
+        // Share with nearby allies
+        for(int i = 0; i < nearbyAllies.Count; ++i)
+            nearbyAllies[i].combat.UpdateTarget(spottedPos);
     }
 
     private void MoveToCover()
@@ -107,9 +122,8 @@ public class NpcCombat : MonoBehaviour
         }
         else // Specifically use cover that protects from target
         {
-            float maxAngle = Mathf.Cos(90f / 2f * Mathf.Deg2Rad); // Cover needs to face target
-            float lowestDotProduct = 1f;
-            float closestDist = float.PositiveInfinity;
+            //float maxAngle = Mathf.Cos(90f / 2f * Mathf.Deg2Rad); // Cover needs to face target
+            float bestScore = 0f;
             for(int i = 0; i < coverGroups.Count; ++i)
             {
                 for(int j = 0; j < coverGroups[i].cover.Length; ++j)
@@ -117,9 +131,35 @@ public class NpcCombat : MonoBehaviour
                     if(coverGroups[i].cover[j].isOccupied)
                         continue;
 
-                    Vector3 targetDir = (targetLastSeen - coverGroups[i].cover[j].GetPosition()).normalized;
+                    /*Vector3 targetDir = (targetLastSeen - coverGroups[i].cover[j].GetPosition()).normalized;
                     float dotProduct = Vector3.Dot(coverGroups[i].cover[j].direction, targetDir);
-                    if(dotProduct >= maxAngle || dotProduct < 0f || dotProduct > lowestDotProduct) // Best facing direction towards target
+                    if(dotProduct >= maxAngle || dotProduct < 0f)
+                        continue;*/
+
+                    float proximity = Vector3.Distance(transform.position, coverGroups[i].cover[j].GetPosition());
+                    proximity = MathConversions.ConvertNumberRange(proximity, 0f, coverRange.radius, 20f, 0f);
+                    if(proximity < 0f)
+                        continue;
+
+                    float lineOfFire = 0f; // Includes cover
+                    if(Physics.Linecast(coverGroups[i].cover[j].GetPosition(), targetLastSeen, tallObstructions))
+                        lineOfFire += 20f;
+                    if(Physics.Linecast(coverGroups[i].cover[j].GetPosition(), targetLastSeen, allObstructions))
+                        lineOfFire += 20f;
+
+                    float fightingRange = IsInRange(coverGroups[i].cover[j].GetPosition(), targetLastSeen, preferredFightingRange) ? 20f : 0f;
+
+                    float totalScore = proximity + lineOfFire + fightingRange;
+                    //float score = dotProduct - V1king.MathConversions.ConvertNumberRange(distance, 0f, npc.spotting.visionRange, 0f, 1f);
+
+                    if(totalScore > bestScore)
+                    {
+                        newCover = coverGroups[i].cover[j];
+                        bestScore = totalScore;
+                    }
+
+                    
+                    /*if(dotProduct >= maxAngle || dotProduct < 0f || dotProduct > lowestDotProduct) // Best facing direction towards target
                         continue;
 
                     float distance = Vector3.Distance(transform.position, coverGroups[i].cover[j].GetPosition());
@@ -128,7 +168,7 @@ public class NpcCombat : MonoBehaviour
                         newCover = coverGroups[i].cover[j];
                         lowestDotProduct = dotProduct;
                         closestDist = distance;
-                    }
+                    }*/
                 }
             }
         }
@@ -141,12 +181,14 @@ public class NpcCombat : MonoBehaviour
             newCover.isOccupied = true;
             npc.movement.destination = newCover.GetPosition();
             cover = newCover;
-
-            Vector3 targetDir = (targetLastSeen - cover.GetPosition()).normalized;
-            float dotProduct = Vector3.Dot(cover.direction, targetDir);
-            float distance = Vector3.Distance(transform.position, cover.GetPosition());
-            float maxAngle = Mathf.Cos(90f / 2f * Mathf.Deg2Rad); // Cover needs to face target
-            Debug.Log(maxAngle + " | " + dotProduct + " | " + distance);
         }
+    }
+
+    private static bool IsInRange(Vector3 pos, Vector3 targetPos, float fightingRange)
+    {
+        float fightingRangeMin = fightingRange - 5f;
+        float fightingRangeMax = fightingRange + 5f;
+        float dist = Vector3.Distance(pos, targetPos);
+        return dist >= fightingRangeMin && dist <= fightingRangeMax ? true : false;
     }
 }

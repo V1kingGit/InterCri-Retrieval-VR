@@ -298,6 +298,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npc: {fileID: 3876798088833032681}
+  coverRange: {fileID: 1893910060}
+  tallObstructions:
+    serializedVersion: 2
+    m_Bits: 4160
+  allObstructions:
+    serializedVersion: 2
+    m_Bits: 5184
+  coverLayer: 10
+  coverDetectionLayer: 11
 --- !u!135 &1893910060
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -309,7 +318,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 20
+  m_Radius: 15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1475887621
 Rigidbody:
@@ -484,7 +493,7 @@ MonoBehaviour:
   maculaFOV: 16
   obstructions:
     serializedVersion: 2
-    m_Bits: 1088
+    m_Bits: 5184
 --- !u!1 &2937157108132971303
 GameObject:
   m_ObjectHideFlags: 0

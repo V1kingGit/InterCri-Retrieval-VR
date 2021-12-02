@@ -31,7 +31,7 @@ public class NpcSpotting : MonoBehaviour
     [Header("Values")]
     [SerializeField] private float[] headSpeeds = new float[System.Enum.GetValues(typeof(NpcCombat.DangerStates)).Length];
     [SerializeField] private float spotPosDuration = default;
-    [SerializeField] private float visionRange = 85f;
+    public float visionRange = 85f;
     [SerializeField] private float totalFOV = 115f; // Includes peripheral vision
     [SerializeField] private float maculaFOV = 16f; // Macular vision
     [SerializeField] private LayerMask obstructions = default;
