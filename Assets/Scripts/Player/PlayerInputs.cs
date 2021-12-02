@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR;
 using System.Collections.Generic;
+//using Unity.XR.Oculus;
 
 public class PlayerInputs : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class PlayerInputs : MonoBehaviour
 
     private InputDevice[] vrControllers = new InputDevice[2]; // Left is 0, Right is 1
 
-    private void Awake()
+    private void Start()
     {
         InitVRInputs();
     }
@@ -22,7 +23,7 @@ public class PlayerInputs : MonoBehaviour
     private void InitVRInputs()
     {
         List<InputDevice> inputDevices = new List<InputDevice>();
-        InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Controller, inputDevices);
+        InputDevices.GetDevices(inputDevices);
 
         for(int i = 0; i < inputDevices.Count; ++i)
         {
@@ -55,17 +56,24 @@ public class PlayerInputs : MonoBehaviour
         for(int i = 0; i < vrControllers.Length; ++i)
         {
             vrControllers[i].TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primary2DAxis);
-            vrControllers[i].TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerButton);
+            vrControllers[i].TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButton);
+            vrControllers[i].TryGetFeatureValue(CommonUsages.primaryTouch, out bool primaryTouch);
 
             if(i == 0) // Left hand
             {
+                Debug.Log($"Trigger: {primaryTouch} | TriggerButton: {primaryButton}");
             }
             else // Right hand
             {
                 movement = primary2DAxis;
             }
             // Both
-
         }
+
+        //Debug.Log($"PrimaryIndexTrigger:{OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.LTouch)} | SecondaryIndexTrigger: {OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger, OVRInput.Controller.LTouch)}");
+       
+        //bool test = OculusUsages.indexTouch;
+        //if(OculusUsages.indexTouch)
+        //Debug.Log(OculusUsages.indexTouch + " | " + OculusUsages.thumbrest + " | " + OculusUsages.thumbTouch);
     }
 }
