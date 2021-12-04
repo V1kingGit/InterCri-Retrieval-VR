@@ -6,7 +6,7 @@ AvatarMask:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Index
+  m_Name: Thumb
   m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
   m_Elements:
   - m_Path: 
@@ -20,13 +20,13 @@ AvatarMask:
   - m_Path: GunGuySkeleton/hand_L
     m_Weight: 0
   - m_Path: GunGuySkeleton/hand_L/index00_L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: GunGuySkeleton/hand_L/index00_L/index01_L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: GunGuySkeleton/hand_L/index00_L/index01_L/index02_L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: GunGuySkeleton/hand_L/index00_L/index01_L/index02_L/index03_L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: GunGuySkeleton/hand_L/middle00_L
     m_Weight: 0
   - m_Path: GunGuySkeleton/hand_L/middle00_L/middle01_L
@@ -52,8 +52,8 @@ AvatarMask:
   - m_Path: GunGuySkeleton/hand_L/ring00_L/ring01_L/ring02_L/ring03_L
     m_Weight: 0
   - m_Path: GunGuySkeleton/hand_L/thumb01_L
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: GunGuySkeleton/hand_L/thumb01_L/thumb02_L
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: GunGuySkeleton/hand_L/thumb01_L/thumb02_L/thumb03_L
-    m_Weight: 0
+    m_Weight: 1

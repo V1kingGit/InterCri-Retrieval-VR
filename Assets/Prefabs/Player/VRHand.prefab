@@ -62,30 +62,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
   m_PrefabInstance: {fileID: 4474213235757278653}
   m_PrefabAsset: {fileID: 0}
---- !u!111 &155020751093041052
-Animation:
+--- !u!65 &8277044301356490359
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3663380236380461292}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: -2155527638007900937, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
-  - {fileID: 6207287253448752746, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
-  - {fileID: 2913410743227984958, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
-  - {fileID: -1571508449939426242, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
-  - {fileID: -5975939797948394363, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
-  - {fileID: 8314602304400053235, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
-  - {fileID: 4959399991706230811, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
-  - {fileID: -2299729194088886843, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
-  - {fileID: 5564774057488712627, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 1
-  m_CullingType: 0
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.1, z: 0.1}
+  m_Center: {x: 0.05, y: 0, z: 0.1}
 --- !u!95 &805874972
 Animator:
   serializedVersion: 4
@@ -95,7 +84,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3663380236380461292}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 10e2f898fc50fb9499f48c318ff011fc, type: 3}
   m_Controller: {fileID: 9100000, guid: f65e9412d9d5f0e4dac7e901b1f4fdf4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
