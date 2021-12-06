@@ -560,6 +560,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpaceCorridorCorner
       objectReference: {fileID: 0}
+    - target: {fileID: 8848015500215926710, guid: 8281c4d08337584479873dfa9b42c71c, type: 3}
+      propertyPath: m_Intensity
+      value: 795.7747
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8281c4d08337584479873dfa9b42c71c, type: 3}
 --- !u!1 &371748437 stripped
@@ -1009,6 +1013,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpaceCorridorWindow (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6854727055835565613, guid: 3198b936d473ee4418b19d78f978db5d, type: 3}
+      propertyPath: m_Intensity
+      value: 795.7747
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3198b936d473ee4418b19d78f978db5d, type: 3}
 --- !u!1001 &939517488
@@ -1400,6 +1408,10 @@ PrefabInstance:
       propertyPath: m_BakedTexture
       value: 
       objectReference: {fileID: 8900000, guid: 9cb449843923ac547b550050a4513041, type: 3}
+    - target: {fileID: 5108113912075733258, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
+      propertyPath: m_Intensity
+      value: 795.7747
+      objectReference: {fileID: 0}
     - target: {fileID: 8714675993006306416, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
       propertyPath: m_BakedTexture
       value: 
@@ -2016,6 +2028,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 258139639, guid: a90eb06eb8b6aca4ebed6dba3efbd971, type: 3}
+      propertyPath: m_Intensity
+      value: 795.7747
+      objectReference: {fileID: 0}
     - target: {fileID: 340260872468269594, guid: a90eb06eb8b6aca4ebed6dba3efbd971, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -2074,7 +2090,7 @@ PrefabInstance:
       objectReference: {fileID: 8900000, guid: 2f8e60f9429cc9444b698c218e18e9cd, type: 3}
     - target: {fileID: 8017552258274475724, guid: a90eb06eb8b6aca4ebed6dba3efbd971, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.05001952
+      value: -0.05002015
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a90eb06eb8b6aca4ebed6dba3efbd971, type: 3}
@@ -2754,6 +2770,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5108113912075733258, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
+      propertyPath: m_Intensity
+      value: 795.7747
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
 --- !u!1 &2046326017 stripped
@@ -2815,6 +2835,10 @@ PrefabInstance:
     - target: {fileID: 926156511050732318, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5108113912075733258, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
+      propertyPath: m_Intensity
+      value: 795.7747
       objectReference: {fileID: 0}
     - target: {fileID: 8714675993006306416, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
       propertyPath: m_BakedTexture
@@ -3003,6 +3027,10 @@ PrefabInstance:
     - target: {fileID: 5648393169888159978, guid: 3198b936d473ee4418b19d78f978db5d, type: 3}
       propertyPath: m_Name
       value: SpaceCorridorWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6854727055835565613, guid: 3198b936d473ee4418b19d78f978db5d, type: 3}
+      propertyPath: m_Intensity
+      value: 795.7747
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3198b936d473ee4418b19d78f978db5d, type: 3}
