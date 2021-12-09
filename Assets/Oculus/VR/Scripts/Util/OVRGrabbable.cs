@@ -18,8 +18,6 @@ using UnityEngine;
 /// </summary>
 public class OVRGrabbable : MonoBehaviour
 {
-    [NonSerialized] public MagSnap magSnap;
-
     [SerializeField]
     protected bool m_allowOffhandGrab = true;
     [SerializeField]
