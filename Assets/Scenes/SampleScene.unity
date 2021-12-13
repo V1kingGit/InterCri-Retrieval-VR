@@ -607,7 +607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8848015500215926710, guid: 8281c4d08337584479873dfa9b42c71c, type: 3}
       propertyPath: m_Intensity
-      value: 795.7747
+      value: 1591.5494
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8281c4d08337584479873dfa9b42c71c, type: 3}
@@ -1134,7 +1134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6854727055835565613, guid: 3198b936d473ee4418b19d78f978db5d, type: 3}
       propertyPath: m_Intensity
-      value: 795.7747
+      value: 1591.5494
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3198b936d473ee4418b19d78f978db5d, type: 3}
@@ -1598,7 +1598,7 @@ PrefabInstance:
       objectReference: {fileID: 8900000, guid: 9cb449843923ac547b550050a4513041, type: 3}
     - target: {fileID: 5108113912075733258, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
       propertyPath: m_Intensity
-      value: 795.7747
+      value: 1591.5494
       objectReference: {fileID: 0}
     - target: {fileID: 8714675993006306416, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
       propertyPath: m_BakedTexture
@@ -2236,7 +2236,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 258139639, guid: a90eb06eb8b6aca4ebed6dba3efbd971, type: 3}
       propertyPath: m_Intensity
-      value: 795.7747
+      value: 1591.5494
       objectReference: {fileID: 0}
     - target: {fileID: 340260872468269594, guid: a90eb06eb8b6aca4ebed6dba3efbd971, type: 3}
       propertyPath: m_RootOrder
@@ -2296,7 +2296,7 @@ PrefabInstance:
       objectReference: {fileID: 8900000, guid: 2f8e60f9429cc9444b698c218e18e9cd, type: 3}
     - target: {fileID: 8017552258274475724, guid: a90eb06eb8b6aca4ebed6dba3efbd971, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.050026137
+      value: -0.050026577
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a90eb06eb8b6aca4ebed6dba3efbd971, type: 3}
@@ -2612,7 +2612,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 100000
+  m_Intensity: 50000
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -2689,7 +2689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 100000
+  m_Intensity: 50000
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -3047,7 +3047,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5108113912075733258, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
       propertyPath: m_Intensity
-      value: 795.7747
+      value: 1591.5494
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
@@ -3124,7 +3124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5108113912075733258, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
       propertyPath: m_Intensity
-      value: 795.7747
+      value: 1591.5494
       objectReference: {fileID: 0}
     - target: {fileID: 8714675993006306416, guid: d6cfbe63f13d3bd48b91170cbe12df77, type: 3}
       propertyPath: m_BakedTexture
@@ -3219,15 +3219,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1840813559951698562, guid: 458b5af440abd084399e7592117a2f2a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1840813559951698562, guid: 458b5af440abd084399e7592117a2f2a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1840813559951698562, guid: 458b5af440abd084399e7592117a2f2a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -22
       objectReference: {fileID: 0}
     - target: {fileID: 1840813559951698562, guid: 458b5af440abd084399e7592117a2f2a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3320,7 +3320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6854727055835565613, guid: 3198b936d473ee4418b19d78f978db5d, type: 3}
       propertyPath: m_Intensity
-      value: 795.7747
+      value: 1591.5494
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3198b936d473ee4418b19d78f978db5d, type: 3}
