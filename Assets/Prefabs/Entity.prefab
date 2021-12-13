@@ -307,6 +307,7 @@ MonoBehaviour:
     m_Bits: 5184
   coverLayer: 10
   coverDetectionLayer: 11
+  coverChangeInterval: 5
 --- !u!135 &1893910060
 SphereCollider:
   m_ObjectHideFlags: 0

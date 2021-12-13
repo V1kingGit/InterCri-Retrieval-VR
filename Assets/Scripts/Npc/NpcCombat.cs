@@ -14,6 +14,7 @@ public class NpcCombat : MonoBehaviour
     [SerializeField] private LayerMask allObstructions = default;
     [SerializeField] private int coverLayer = 0;
     [SerializeField] private int coverDetectionLayer = 0;
+    [SerializeField] private float coverChangeInterval = default;
 
     public enum DangerStates
     {
@@ -30,8 +31,8 @@ public class NpcCombat : MonoBehaviour
         }
         set
         {
-            if(value == DangerStates.Combat && cover == null)
-                MoveToCover();
+            //if(value == DangerStates.Combat && cover == null)
+            //    MoveToCover();
             _dangerState = value;
         }
     }
@@ -40,6 +41,7 @@ public class NpcCombat : MonoBehaviour
 
     private List<CoverGroup> coverGroups = new List<CoverGroup>();
     private CoverGroup.Cover cover;
+    private float lastCoverUpdate = float.NegativeInfinity;
 
     private Vector3 targetLastSeen = Npc.invalidVector;
 
@@ -50,6 +52,12 @@ public class NpcCombat : MonoBehaviour
     private void Awake()
     {
         morale = Random.Range(BASE_MORALE - 50f, BASE_MORALE + 50f);
+    }
+
+    private void Update()
+    {
+        if(dangerState == DangerStates.Combat && Time.time - lastCoverUpdate > coverChangeInterval)
+            MoveToCover();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -74,15 +82,14 @@ public class NpcCombat : MonoBehaviour
 
     public void UpdateTarget(Vector3 spottedPos)
     {
-        // ToDo: Change below to timer, lastUpdatedCover, so he can constantly move cover to/away from target
-        if(Vector3.Distance(targetLastSeen, spottedPos) < 2f) // Only update if target changed position
-            return;
+        //if(Vector3.Distance(targetLastSeen, spottedPos) < 2f) // Only update if target changed position
+        //    return;
 
         targetLastSeen = spottedPos;
         
         dangerState = DangerStates.Combat;
-        if(cover != null) // If in cover, reevaluate if it still protects
-            MoveToCover();
+        //if(cover != null) // If in cover, reevaluate if it still protects
+        //    MoveToCover();
 
         // Share with nearby allies
         for(int i = 0; i < nearbyAllies.Count; ++i)
@@ -91,6 +98,8 @@ public class NpcCombat : MonoBehaviour
 
     private void MoveToCover()
     {
+        lastCoverUpdate = Time.time;
+
         if(cover != null) // Already has cover
         {
             if(targetLastSeen == Npc.invalidVector)
