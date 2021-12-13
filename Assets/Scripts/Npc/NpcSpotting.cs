@@ -25,7 +25,7 @@ public class NpcSpotting : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Npc npc = null;
-    [SerializeField] private Transform[] targets = null;
+    public Transform[] targets;
     [SerializeField] private Transform body = null;
 
     [Header("Values")]
@@ -47,7 +47,8 @@ public class NpcSpotting : MonoBehaviour
 
     private int currentTarget;
     private bool isInRangeOfTarget;
-    private bool[] seesTargets;
+    [System.NonSerialized] public bool[] seesTargets;
+    public int visibleTargets;
 
     private Vector3 _spotPos = Npc.invalidVector;
     public Vector3 spotPos
@@ -267,26 +268,24 @@ public class NpcSpotting : MonoBehaviour
 
     private void SpotTarget(int targetIndex)
     {
-        Debug.Log("SpotTarget");
-
         // Spot enemy position
         npc.combat.UpdateTarget(targets[0].position);
 
         seesTargets[targetIndex] = true;
+        ++visibleTargets;
     }
 
     private void NoticeTarget(int targetIndex)
     {
         // Begin looking at enemy
-        Debug.Log("NoticeTarget");
         suspicion += 70f;
         spotPos = targets[targetIndex].position;
     }
 
     private void LoseTarget(int targetIndex)
     {
-        Debug.Log("LoseTarget");
         seesTargets[targetIndex] = false;
+        --visibleTargets;
 
         // Keep a lookout for it
         spotPos = targets[targetIndex].position;

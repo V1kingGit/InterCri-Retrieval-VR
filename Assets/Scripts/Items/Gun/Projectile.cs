@@ -34,9 +34,9 @@ public class Projectile : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(transform.position, movement, out hit, movementDist, collisionLayers))
         {
-
-            EntityHealth hitEntity = hit.transform.GetComponent<EntityHealth>();
-            hitEntity.TakeDamage(damage);
+            EntityHealth hitEntity = hit.transform.GetComponentInParent<EntityHealth>();
+            if(hitEntity)
+                hitEntity.TakeDamage(damage);
 
             hasCollided = true;
             transform.position = hit.point;

@@ -4,17 +4,23 @@ using System.Collections.Generic;
 
 public class PlayerVRInputs : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private PlayerHandAnimator handAnimator = default;
 
     [SerializeField] private Gun gun = default;
     [SerializeField] private OVRGrabber[] hands = default;
 
+    [Header("Values")]
+    [Range(0.5f, 4f)]
+    [SerializeField] private float resolutionMultiplier = 1f;
+
     private InputDevice[] vrControllers = new InputDevice[2]; // Left is 0, Right is 1
+
+    private bool[] oldTriggerButton = new bool[2];
 
     private void Start()
     {
-        Debug.Log(gameObject);
-        XRSettings.eyeTextureResolutionScale = 2f;
+        XRSettings.eyeTextureResolutionScale = resolutionMultiplier;
         InitVRInputs();
     }
 
@@ -66,11 +72,13 @@ public class PlayerVRInputs : MonoBehaviour
 
             // Shoot
             if(triggerButton
+            && triggerButton != oldTriggerButton[i]
             && gun.grabbable.isGrabbed
-            && gun.grabbable.grabbedBy == hands[i])
-            {
+            && gun.grabbable.grabbedBy == hands[i]
+            && gun.canShoot)
                 gun.Shoot();
-            }
+
+            oldTriggerButton[i] = triggerButton;
         }
     }
 }

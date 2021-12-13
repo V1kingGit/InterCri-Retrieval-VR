@@ -13,6 +13,11 @@ public class Magazine : MonoBehaviour
 
     private void Awake()
     {
+        SetAmmoToMax();
+    }
+
+    public void SetAmmoToMax()
+    {
         ammoCount = maxAmmo;
     }
 }

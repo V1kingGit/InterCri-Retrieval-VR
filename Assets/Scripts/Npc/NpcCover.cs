@@ -80,7 +80,7 @@ public class NpcCover : MonoBehaviour
         morale -= 25f;
     }
 
-    public void UpdateTarget(Vector3 spottedPos)
+    public void UpdateTarget(Vector3 spottedPos, bool toUpdateOthers = false)
     {
         //if(Vector3.Distance(targetLastSeen, spottedPos) < 2f) // Only update if target changed position
         //    return;
@@ -92,8 +92,11 @@ public class NpcCover : MonoBehaviour
         //    MoveToCover();
 
         // Share with nearby allies
-        for(int i = 0; i < nearbyAllies.Count; ++i)
-            nearbyAllies[i].combat.UpdateTarget(spottedPos);
+        if(toUpdateOthers)
+        {
+            for(int i = 0; i < nearbyAllies.Count; ++i)
+                nearbyAllies[i].combat.UpdateTarget(spottedPos, false);
+        }
     }
 
     private void MoveToCover()
