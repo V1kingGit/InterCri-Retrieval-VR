@@ -21,7 +21,7 @@ public class MagSnap : MonoBehaviour
         Vector3 relativeMagPos = destination.InverseTransformPoint(currentMagazine.transform.position);
         float interp = relativeMagPos.z / distToDestination;
         //float interp = Vector3.Distance(currentMagazine.transform.position, destination.position) / distToDestination;
-        if(interp < -2f)
+        if(interp < -2f - 1f) // -1f buffer
         {
             StopSnapping();
             return;

@@ -6,6 +6,9 @@ public class PlayerVRInputs : MonoBehaviour
 {
     [SerializeField] private PlayerHandAnimator handAnimator = default;
 
+    [SerializeField] private Gun gun = default;
+    [SerializeField] private OVRGrabber[] hands = default;
+
     private InputDevice[] vrControllers = new InputDevice[2]; // Left is 0, Right is 1
 
     private void Start()
@@ -37,6 +40,7 @@ public class PlayerVRInputs : MonoBehaviour
     {
         for(int i = 0; i < vrControllers.Length; ++i)
         {
+            vrControllers[i].TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerButton);
             vrControllers[i].TryGetFeatureValue(CommonUsages.trigger, out float trigger);
             vrControllers[i].TryGetFeatureValue(CommonUsages.grip, out float grip);
             vrControllers[i].TryGetFeatureValue(CommonUsages.gripButton, out bool gripButton);
@@ -58,6 +62,14 @@ public class PlayerVRInputs : MonoBehaviour
             else if(joystickTouch)
                 thumbTarget = 1;
             handAnimator.AnimateHand(i, trigger, grip, thumbTarget);
+
+            // Shoot
+            if(triggerButton
+            && gun.grabbable.isGrabbed
+            && gun.grabbable.grabbedBy == hands[i])
+            {
+                gun.Shoot();
+            }
         }
     }
 }
