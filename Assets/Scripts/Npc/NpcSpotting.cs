@@ -29,7 +29,7 @@ public class NpcSpotting : MonoBehaviour
     [SerializeField] private Transform body = null;
 
     [Header("Values")]
-    [SerializeField] private float[] headSpeeds = new float[System.Enum.GetValues(typeof(NpcCombat.DangerStates)).Length];
+    [SerializeField] private float[] headSpeeds = new float[System.Enum.GetValues(typeof(NpcCover.DangerStates)).Length];
     [SerializeField] private float spotPosDuration = default;
     public float visionRange = 85f;
     [SerializeField] private float totalFOV = 115f; // Includes peripheral vision
@@ -144,7 +144,7 @@ public class NpcSpotting : MonoBehaviour
                     reachedSpotPos = Time.time;
                 else if(Time.time > reachedSpotPos + spotPosDuration) // Look a bit longer if no other spotted targets - new spotted targets will overwrite this
                 {
-                    if(suspicion >= 100f && npc.combat.dangerState == NpcCombat.DangerStates.Safe)
+                    if(suspicion >= 100f && npc.combat.dangerState == NpcCover.DangerStates.Safe)
                         npc.movement.InvestigateLocation(spotPos);
                     spotPos = Npc.invalidVector;
                 }
@@ -253,7 +253,7 @@ public class NpcSpotting : MonoBehaviour
 
     private IEnumerator ReactTo(ReactionDelegate method, int targetIndex)
     {
-        if(spotStage == SpotStage.Macula && npc.combat.dangerState != NpcCombat.DangerStates.Safe)
+        if(spotStage == SpotStage.Macula && npc.combat.dangerState != NpcCover.DangerStates.Safe)
             yield return reactionTime;
         else
             yield return peripheralReactionTime;

@@ -13,6 +13,7 @@ public class PlayerVRInputs : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(gameObject);
         XRSettings.eyeTextureResolutionScale = 2f;
         InitVRInputs();
     }

@@ -635,8 +635,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grabbable: {fileID: 1010145507}
   magazine: {fileID: 0}
-  model: {fileID: 0}
+  model: {fileID: 3814078864777708489}
   muzzleEnd: {fileID: 3974222049586450822}
   projectileLength: 0.25
   requiresMagazine: 0
   damage: 30
+  recoilGain: 10
+  recoilSpeed: 15
+  recoilDecaySpeed: 5

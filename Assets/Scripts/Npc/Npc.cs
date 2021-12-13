@@ -6,5 +6,5 @@ public class Npc : MonoBehaviour
 
     public NpcMovement movement;
     public NpcSpotting spotting;
-    public NpcCombat combat;
+    public NpcCover combat;
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using V1king;
 
-public class NpcCombat : MonoBehaviour
+public class NpcCover : MonoBehaviour
 {
     private const float BASE_MORALE = 50f;
 
@@ -65,7 +65,7 @@ public class NpcCombat : MonoBehaviour
         if(other.gameObject.layer == coverLayer)
             coverGroups.Add(other.GetComponent<CoverGroup>());
         else if(other.gameObject.layer == coverDetectionLayer)
-            nearbyAllies.Add(other.GetComponent<NpcCombat>().npc);
+            nearbyAllies.Add(other.GetComponent<NpcCover>().npc);
 
         morale += 25f;
     }
@@ -75,7 +75,7 @@ public class NpcCombat : MonoBehaviour
         if(other.gameObject.layer == coverLayer)
             coverGroups.Remove(other.GetComponent<CoverGroup>());
         else if(other.gameObject.layer == coverDetectionLayer)
-            nearbyAllies.Remove(other.GetComponent<NpcCombat>().npc);
+            nearbyAllies.Remove(other.GetComponent<NpcCover>().npc);
 
         morale -= 25f;
     }

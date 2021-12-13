@@ -88,7 +88,7 @@ public class NpcMovement : MonoBehaviour
         if(!NavMesh.SamplePosition(location, out NavMeshHit hit, 100f, navMeshAgent.areaMask))
             return;
 
-        npc.combat.dangerState = NpcCombat.DangerStates.Cautious;
+        npc.combat.dangerState = NpcCover.DangerStates.Cautious;
         destination = hit.position;
         //investigationPos = hit.position;
         investigationStartTime = Time.time;
