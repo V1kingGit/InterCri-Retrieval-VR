@@ -3,9 +3,11 @@ using UnityEngine;
 public class MagSnap : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private Gun gun = default;
     [SerializeField] private Transform destination = default;
 
     private Magazine currentMagazine;
+    private bool isAttached;
     private float distToDestination;
 
     private void Awake()
@@ -18,25 +20,48 @@ public class MagSnap : MonoBehaviour
         if(!currentMagazine)
             return;
 
-        Vector3 relativeMagPos = destination.InverseTransformPoint(currentMagazine.transform.position);
-        float interp = relativeMagPos.z / distToDestination;
-        //float interp = Vector3.Distance(currentMagazine.transform.position, destination.position) / distToDestination;
-        if(interp < -2f - 1f) // -1f buffer
+        if(!isAttached)
         {
-            StopSnapping();
-            return;
-        }
-        if(!currentMagazine.grabbable.isGrabbed)
-        {
-            if(interp < -0.05f)
+            Vector3 relativeMagPos = destination.InverseTransformPoint(currentMagazine.transform.position);
+            float interp = relativeMagPos.z * -distToDestination;
+            if(interp > 1f + 0.5f) // 0.5f buffer
             {
                 StopSnapping();
                 return;
             }
-            currentMagazine.transform.SetParent(destination);
+            if(!currentMagazine.grabbable.isGrabbed)
+            {
+                if(interp > 0.1f)
+                {
+                    StopSnapping();
+                    return;
+                }
+                // Load magazine
+                currentMagazine.transform.SetParent(destination);
+                //currentMagazine.coll.isTrigger = true;
+                currentMagazine.rb.isKinematic = true;
+                currentMagazine.rb.velocity = Vector3.zero;
+                currentMagazine.rb.angularVelocity = Vector3.zero;
+                isAttached = true;
+                gun.magazine = currentMagazine;
+                currentMagazine.model.position = destination.position;
+                currentMagazine.model.eulerAngles = transform.eulerAngles;
+                return;
+            }
+            currentMagazine.model.position = Vector3.Lerp(destination.position, transform.position, interp);
+            currentMagazine.model.eulerAngles = transform.eulerAngles;
         }
-        currentMagazine.model.position = Vector3.Lerp(destination.position, transform.position, interp);
-        currentMagazine.model.eulerAngles = transform.eulerAngles;
+        else
+        {
+            if(currentMagazine.grabbable.isGrabbed)
+            {
+                //currentMagazine.coll.isTrigger = false;
+                //currentMagazine.rb.isKinematic = false;
+                //currentMagazine.rb.useGravity = false;
+                isAttached = false;
+                gun.magazine = null;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -56,10 +81,12 @@ public class MagSnap : MonoBehaviour
     private void StartSnapping(Magazine magazine)
     {
         currentMagazine = magazine;
+        magazine.rb.useGravity = false;
     }
 
     private void StopSnapping()
     {
+        currentMagazine.rb.useGravity = true;
         currentMagazine.model.localPosition = Vector3.zero;
         currentMagazine = null;
     }
