@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
 
     [System.NonSerialized] public float damage;
 
+    private Vector3 originPos;
     private bool hasCollided;
 
     private void Update()
@@ -21,6 +22,7 @@ public class Projectile : MonoBehaviour
     {
         this.damage = damage;
 
+        originPos = transform.position;
         hasCollided = false;
         StopAllCoroutines();
         StartCoroutine(FadeOut(10f));
@@ -34,9 +36,15 @@ public class Projectile : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(transform.position, movement, out hit, movementDist, collisionLayers))
         {
-            EntityHealth hitEntity = hit.transform.GetComponentInParent<EntityHealth>();
-            if(hitEntity)
-                hitEntity.TakeDamage(damage);
+            PlayerHealth hitPlayer = hit.transform.GetComponentInParent<PlayerHealth>();
+            if(hitPlayer)
+                hitPlayer.TakeDamage(damage, originPos);
+            else
+            {
+                EntityHealth hitEntity = hit.transform.GetComponentInParent<EntityHealth>();
+                if(hitEntity)
+                    hitEntity.TakeDamage(damage, originPos);
+            }
 
             hasCollided = true;
             transform.position = hit.point;

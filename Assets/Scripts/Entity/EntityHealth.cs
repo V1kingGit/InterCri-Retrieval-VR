@@ -4,7 +4,7 @@ public class EntityHealth : MonoBehaviour
 {
     private float health = 100f;
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage, Vector3 originPos)
     {
         health -= damage;
         if(health <= 0f)

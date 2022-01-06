@@ -25,7 +25,6 @@ public class NpcSpotting : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Npc npc = null;
-    public Transform[] targets;
     [SerializeField] private Transform body = null;
 
     [Header("Values")]
@@ -72,9 +71,12 @@ public class NpcSpotting : MonoBehaviour
         float baseReactionTime = Random.Range(visualReactionTimeMin, visualReactionTimeMax);
         reactionTime = new WaitForSeconds(baseReactionTime);
         peripheralReactionTime = new WaitForSeconds(baseReactionTime + 0.1f);
+    }
 
-        reactingTo = new SpotStage[targets.Length];
-        seesTargets = new bool[targets.Length];
+    private void Start()
+    {
+        reactingTo = new SpotStage[TargetManager.singleton.targets.Length];
+        seesTargets = new bool[TargetManager.singleton.targets.Length];
 
         StartCoroutine(RangeCheck());
     }
@@ -118,12 +120,12 @@ public class NpcSpotting : MonoBehaviour
         float speedMultiplier = 1f;
 
         // Look at targets we can see
-        for(int i = 0; i < targets.Length; ++i)
+        for(int i = 0; i < TargetManager.singleton.targets.Length; ++i)
         {
             if(!seesTargets[i])
                 continue;
 
-            Vector3 direction = targets[i].position - transform.position;
+            Vector3 direction = TargetManager.singleton.targets[i].position - transform.position;
             desiredRotation = DirectionToRotation(direction);
             if(VectorsWithinDeadzone(transform.eulerAngles, desiredRotation.eulerAngles, 2f)) // Don't do aggressive small head movements (would look funny)
                 speedMultiplier = 0.05f;
@@ -173,24 +175,24 @@ public class NpcSpotting : MonoBehaviour
         if(spotStage == SpotStage.None)
             return;
 
-        if(++currentTarget >= targets.Length)
+        if(++currentTarget >= TargetManager.singleton.targets.Length)
             currentTarget = 0;
 
         if(seesTargets[currentTarget])
         {
-            if(!HasLineOfSight(targets[currentTarget].position))
+            if(!HasLineOfSight(TargetManager.singleton.targets[currentTarget].position))
                 BeginReactingTo(LoseTarget, currentTarget);
             else
-                npc.combat.UpdateTarget(targets[0].position);
+                npc.combat.UpdateTarget(TargetManager.singleton.targets[0].position);
         }
         else if(spotStage == SpotStage.Macula)
         {
-            if(HasLineOfSight(targets[currentTarget].position))
+            if(HasLineOfSight(TargetManager.singleton.targets[currentTarget].position))
                 BeginReactingTo(SpotTarget, currentTarget);
         }
         else
         {
-            if((spotPos == Npc.invalidVector || reachedSpotPos != -1f) && HasLineOfSight(targets[currentTarget].position))
+            if((spotPos == Npc.invalidVector || reachedSpotPos != -1f) && HasLineOfSight(TargetManager.singleton.targets[currentTarget].position))
                 BeginReactingTo(NoticeTarget, currentTarget);
         }
     }
@@ -201,7 +203,7 @@ public class NpcSpotting : MonoBehaviour
         {
             yield return rangeCheckInterval;
 
-            bool newValue = Vector3.Distance(transform.position, targets[0].position) < 85f;
+            bool newValue = Vector3.Distance(transform.position, TargetManager.singleton.targets[0].position) < 85f;
             if(newValue != isInRangeOfTarget)
             {
                 if(newValue)
@@ -222,7 +224,7 @@ public class NpcSpotting : MonoBehaviour
             else
                 yield return fovCheckInterval; // Peripheral vision doesn't need accuracy
 
-            Vector3 direction = (targets[0].position - transform.position).normalized;
+            Vector3 direction = (TargetManager.singleton.targets[0].position - transform.position).normalized;
             float dotProduct = Vector3.Dot(transform.forward, direction);
 
             float maxMaculaAngle = Mathf.Cos(maculaFOV / 2f * Mathf.Deg2Rad);
@@ -261,7 +263,7 @@ public class NpcSpotting : MonoBehaviour
 
         if(spotStage == SpotStage.Macula)
             method.Invoke(targetIndex);
-        else if(HasLineOfSight(targets[targetIndex].position) == !seesTargets[targetIndex]) // If still has / doesn't have line of sight (= fast movements in peripheral aren't detected)
+        else if(HasLineOfSight(TargetManager.singleton.targets[targetIndex].position) == !seesTargets[targetIndex]) // If still has / doesn't have line of sight (= fast movements in peripheral aren't detected)
             method.Invoke(targetIndex);
         reactingTo[targetIndex] = SpotStage.None;
     }
@@ -269,7 +271,7 @@ public class NpcSpotting : MonoBehaviour
     private void SpotTarget(int targetIndex)
     {
         // Spot enemy position
-        npc.combat.UpdateTarget(targets[0].position);
+        npc.combat.UpdateTarget(TargetManager.singleton.targets[0].position);
 
         seesTargets[targetIndex] = true;
         ++visibleTargets;
@@ -279,7 +281,7 @@ public class NpcSpotting : MonoBehaviour
     {
         // Begin looking at enemy
         suspicion += 70f;
-        spotPos = targets[targetIndex].position;
+        spotPos = TargetManager.singleton.targets[targetIndex].position;
     }
 
     private void LoseTarget(int targetIndex)
@@ -288,7 +290,7 @@ public class NpcSpotting : MonoBehaviour
         --visibleTargets;
 
         // Keep a lookout for it
-        spotPos = targets[targetIndex].position;
+        spotPos = TargetManager.singleton.targets[targetIndex].position;
     }
 
     // Track player a bit even when no line of sight, so no need to run in update, can use coroutine

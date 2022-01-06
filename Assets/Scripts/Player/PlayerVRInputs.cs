@@ -71,10 +71,6 @@ public class PlayerVRInputs : MonoBehaviour
             handAnimator.AnimateHand(i, trigger, grip, thumbTarget);
 
             // Shoot
-            if(gun)
-                Debug.Log(gun.canShoot + " | " + gun.magazine);
-            if(gun.magazine)
-                Debug.Log(gun.magazine.ammoCount);
             if(triggerButton
             && triggerButton != oldTriggerButton[i]
             && gun.grabbable.isGrabbed
