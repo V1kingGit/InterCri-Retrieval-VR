@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce976a440d43b643958f3767efe99c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 613138474150704103}
   lifeTime: 1
 --- !u!1001 &2252885651332673379
 PrefabInstance:
@@ -59,15 +60,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 479d66b58a1c5f441b464b788f161904, type: 3}
       propertyPath: m_LocalScale.x
-      value: 25
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 479d66b58a1c5f441b464b788f161904, type: 3}
       propertyPath: m_LocalScale.y
-      value: 25
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 479d66b58a1c5f441b464b788f161904, type: 3}
       propertyPath: m_LocalScale.z
-      value: 25
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 479d66b58a1c5f441b464b788f161904, type: 3}
       propertyPath: m_LocalPosition.x
@@ -135,6 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 479d66b58a1c5f441b464b788f161904, type: 3}
+--- !u!23 &613138474150704103 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 479d66b58a1c5f441b464b788f161904, type: 3}
+  m_PrefabInstance: {fileID: 2252885651332673379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1786067498248915080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 479d66b58a1c5f441b464b788f161904, type: 3}

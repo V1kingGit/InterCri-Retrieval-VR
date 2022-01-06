@@ -224,24 +224,31 @@ public class NpcSpotting : MonoBehaviour
             else
                 yield return fovCheckInterval; // Peripheral vision doesn't need accuracy
 
-            Vector3 direction = (TargetManager.singleton.targets[0].position - transform.position).normalized;
-            float dotProduct = Vector3.Dot(transform.forward, direction);
+            SpotStage newSpotStage = SpotStage.None;
 
             float maxMaculaAngle = Mathf.Cos(maculaFOV / 2f * Mathf.Deg2Rad);
-            if(dotProduct >= maxMaculaAngle)
-            {
-                spotStage = SpotStage.Macula;
-                continue;
-            }
-
             float maxPeripheralAngle = Mathf.Cos(totalFOV / 2f * Mathf.Deg2Rad);
-            if(dotProduct >= maxPeripheralAngle)
+            for(int i = 0; i < TargetManager.singleton.targets.Length; ++i)
             {
-                spotStage = SpotStage.Peripheral;
-                continue;
+                Vector3 direction = (TargetManager.singleton.targets[0].position - transform.position).normalized;
+                float dotProduct = Vector3.Dot(transform.forward, direction);
+
+                if(dotProduct >= maxMaculaAngle)
+                {
+                    if(newSpotStage < SpotStage.Macula)
+                        newSpotStage = SpotStage.Macula;
+                    continue;
+                }
+
+                if(dotProduct >= maxPeripheralAngle)
+                {
+                    if(newSpotStage < SpotStage.Peripheral)
+                        newSpotStage = SpotStage.Peripheral;
+                    continue;
+                }
             }
 
-            spotStage = SpotStage.None;
+            spotStage = newSpotStage;
         }
     }
 

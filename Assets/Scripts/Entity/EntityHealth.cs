@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class EntityHealth : MonoBehaviour
 {
-    private float health = 100f;
+    protected float health { get; private set; } = 100f;
+
+    [SerializeField] private float damageMultiplier = 1f;
 
     public virtual void TakeDamage(float damage, Vector3 originPos)
     {
-        health -= damage;
+        health -= damage * damageMultiplier;
         if(health <= 0f)
             Destroy(gameObject);
     }

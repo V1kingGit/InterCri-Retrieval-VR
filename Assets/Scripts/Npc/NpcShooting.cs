@@ -30,7 +30,7 @@ public class NpcShooting : MonoBehaviour
         if(gun.recoil > nextAcceptableRecoil)
             return;
 
-        int targetIndex = Random.Range(0, npc.spotting.visibleTargets);
+        /*int targetIndex = Random.Range(0, npc.spotting.visibleTargets);
         int visibleCounter = 0;
         for(int i = 0; i < TargetManager.singleton.targets.Length; ++i)
         {
@@ -44,6 +44,16 @@ public class NpcShooting : MonoBehaviour
                 gun.Shoot(Quaternion.LookRotation(dir), true);
                 return;
             }
+        }*/
+        for(int i = 0; i < TargetManager.singleton.targets.Length; ++i)
+        {
+            if(!npc.spotting.seesTargets[i])
+                continue;
+
+            nextAcceptableRecoil = Random.Range(0.01f, maxAcceptableRecoil);
+            Vector3 dir = TargetManager.singleton.targets[i].position - gun.GetShootingPos();
+            gun.Shoot(Quaternion.LookRotation(dir), true);
+            return;
         }
     }
 
