@@ -9,19 +9,15 @@ public class PPEffects : MonoBehaviour
     [SerializeField] private VolumeProfile ppVolume = null;
 
     private ColorAdjustments colorAdjustments;
-    private float origPostExposure;
-    private float origContrast;
-    private Color origColorFilter;
-    private float origSaturation;
+    [SerializeField] private float origPostExposure = default;
+    [SerializeField] private float origContrast = default;
+    [SerializeField] private Color origColorFilter = default;
+    [SerializeField] private float origSaturation = default;
 
     private void Awake()
     {
         singleton = this;
         ppVolume.TryGet(out colorAdjustments);
-        origPostExposure = colorAdjustments.postExposure.value;
-        origContrast = colorAdjustments.contrast.value;
-        origColorFilter = colorAdjustments.colorFilter.value;
-        origSaturation = colorAdjustments.saturation.value;
         LerpColorAdjustments(0f);
     }
 
