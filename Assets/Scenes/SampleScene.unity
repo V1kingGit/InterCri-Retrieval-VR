@@ -4019,6 +4019,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 681204619066478025, guid: d4660ca5dd87cb340adb96f74393013f, type: 3}
+      propertyPath: maxAmmo
+      value: 2000000
+      objectReference: {fileID: 0}
     - target: {fileID: 8453777208543220603, guid: d4660ca5dd87cb340adb96f74393013f, type: 3}
       propertyPath: m_Name
       value: MagCanister
